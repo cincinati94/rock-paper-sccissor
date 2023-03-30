@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>rock paper scissors</title>
+    <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  </head>
+  <body>
+    <h1>rock paper scissors</h1>
+    <div class="content">
+      <div class="container-selection">
+        <p>Select one:</p>
+        <div class="container-buttons-selection">
+          <button class="button-select" onclick="playPlayer('rock')">
+            <span class="iconify" data-icon="la:hand-rock"></span>
+          </button>
+          <button class="button-select" onclick="playPlayer('paper')">
+            <span class="iconify" data-icon="ic:twotone-back-hand"></span>
+          </button>
+          <button class="button-select" onclick="playPlayer('scissors')">
+            <span class="iconify" data-icon="la:hand-scissors-solid"></span>
+          </button>
+        </div>
+      </div>
+    <div>
+      <div class="flex-center">
+        <div class="container-battle">
+            <div class="flex-center">
+          <span>PLAYER</span>
+          <span id="selection-player"></span>
+        </div>
+        <div>VS</div>
+        <div  class="flex-center">
+          <span>COMPUTER</span>
+          <span id="selection-computer"></span>
+        </div>
+        </div>
+        <table class="container-scores">
+          <thead>
+            <h2>Score</h2>
+          </thead>
+          <tbody class="score">
+            <tr>
+              <th>Player</th>
+              <th>Computer</th>
+            </tr>
+            <tr>
+              <td id="score-player"></td>
+              <td id="score-computer"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+
+    <script>
+      //jugada del ordenado
+      const moves = ["rock", "paper", "scissors"];
+      const movesIcon = {
+        rock: '<span class="iconify" data-icon="la:hand-rock"></span>',
+        paper: '<span class="iconify" data-icon="ic:twotone-back-hand"></span>',
+        scissors: 
+          '<span class="iconify" data-icon="la:hand-scissors-solid"></span>'
+      };
+      let puntajeJugador = 0;
+      let puntajeOrdenador = 0;
+      const limit = 5;
+
+      function generateMoveComputer() {
+        const number = moves[Math.floor(Math.random() * moves.length)];
+        return number;
+      }
+      //function choose player
+      function playPlayer(movePlayer) {
+        console.log(movePlayer);
+        let moveComputer = generateMoveComputer();
+        const result = chooseWinner(moveComputer, movePlayer);
+        const player =  movesIcon[movePlayer];
+        const computer = movesIcon[moveComputer];
+        const contadorPlayer = puntajeJugador;
+        const contadorComputer = puntajeOrdenador;
+        document.getElementById("selection-player").innerHTML = player;
+        document.getElementById("selection-computer").innerHTML = computer;
+        document.getElementById("score-player").innerHTML = contadorPlayer;
+        document.getElementById("score-computer").innerHTML = contadorComputer;
+      }
+
+      function chooseWinner(moveComputer, movePlayer) {
+        if (moveComputer === movePlayer) {
+          return "Empate";
+        } else if (
+          (moveComputer === "rock" && movePlayer === "paper") ||
+          (moveComputer === "paper" && movePlayer === "scissors") ||
+          (moveComputer === "scissors" && movePlayer === "rock")
+        ) {
+          puntajeJugador++;
+          if (puntajeJugador === limit) {
+            puntajeJugador = 0;
+            puntajeOrdenador = 0;
+            return alert("Has ganado el juego");
+          }
+          return "you win";
+        } else {
+          puntajeOrdenador++;
+          if (puntajeJugador === limit) {
+            puntajeJugador = 0;
+            puntajeOrdenador = 0;
+            return alert("Has perdido el juego");
+          }
+          return "you lose";
+        }
+      }
+      console.log(puntajeJugador);
+      console.log(puntajeOrdenador);
+    </script>
+  </body>
+</html>
